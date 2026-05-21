@@ -1,0 +1,6 @@
+{
+  "name": "EstateVista",
+  "description": "Pakistan's premier real estate portal for buying, renting, and investing in properties and new projects.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
