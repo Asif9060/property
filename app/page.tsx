@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { motion } from 'motion/react';
 import {
   Search,
   MapPin,
@@ -28,61 +29,95 @@ import Image from 'next/image';
 // --- NAVIGATION ---
 function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
-    <nav className="sticky top-0 z-50 bg-[#F9F7F2]/90 backdrop-blur-md border-b border-[#E5E1D8]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-20">
+    <motion.nav 
+      initial={{ y: -100 }}
+      animate={{ y: 0 }}
+      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+      className={`fixed top-0 inset-x-0 z-50 flex justify-center transition-all duration-500 ${
+        isScrolled || isOpen ? 'px-0 pt-0' : 'px-4 sm:px-6 lg:px-8 pt-6 sm:pt-8'
+      }`}
+    >
+      <div 
+        className={`w-full transition-all duration-500 flex flex-col ${
+          isScrolled || isOpen
+            ? 'max-w-full bg-white/95 backdrop-blur-xl border-b border-[#E5E1D8] shadow-sm py-3 px-4 sm:px-6 lg:px-8 rounded-none' 
+            : 'max-w-[70rem] bg-white/80 backdrop-blur-lg shadow-xl shadow-[#4A5D4E]/10 border border-white p-2 pl-2 sm:pl-3 pr-2 sm:pr-3 rounded-full'
+        }`}
+      >
+        <div className="flex justify-between items-center w-full transition-all duration-500">
           {/* Logo */}
-          <div className="flex-shrink-0 flex items-center gap-2 cursor-pointer">
-            <div className="w-10 h-10 bg-[#4A5D4E] rounded-xl flex items-center justify-center text-white">
-              <Building2 size={24} />
+          <div className="flex-shrink-0 flex items-center gap-3 cursor-pointer group">
+            <div className={`transition-all duration-500 bg-[#4A5D4E] flex items-center justify-center text-white ${
+              isScrolled || isOpen ? 'w-10 h-10 rounded-xl' : 'w-11 h-11 rounded-[1.25rem] shadow-md shadow-[#4A5D4E]/20'
+            }`}>
+              <Building2 size={isScrolled || isOpen ? 20 : 22} />
             </div>
-            <span className="font-serif font-bold text-2xl tracking-tighter text-[#4A5D4E] tracking-tight">EstateVista</span>
+            <span className={`font-serif font-bold tracking-tighter text-[#4A5D4E] transition-all duration-500 ${
+              isScrolled || isOpen ? 'text-2xl' : 'text-2xl'
+            }`}>EstateVista</span>
           </div>
 
           {/* Desktop Nav */}
-          <div className="hidden md:flex items-center space-x-8">
-            <a href="#" className="text-[#6B6B6B] hover:text-[#4A5D4E] text-sm uppercase tracking-wider font-semibold transition-colors">Buy</a>
-            <a href="#" className="text-[#6B6B6B] hover:text-[#4A5D4E] text-sm uppercase tracking-wider font-semibold transition-colors">Rent</a>
-            <a href="#" className="text-[#6B6B6B] hover:text-[#4A5D4E] text-sm uppercase tracking-wider font-semibold transition-colors">Projects</a>
-            <a href="#" className="text-[#6B6B6B] hover:text-[#4A5D4E] text-sm uppercase tracking-wider font-semibold transition-colors flex items-center gap-1">
-              Tools <ChevronDown size={16} />
+          <div className="hidden md:flex items-center space-x-7 lg:space-x-10">
+            <a href="#" className="text-[#2D2D2D] hover:text-[#4A5D4E] text-xs lg:text-sm uppercase tracking-wider font-bold transition-colors">Buy</a>
+            <a href="#" className="text-[#2D2D2D] hover:text-[#4A5D4E] text-xs lg:text-sm uppercase tracking-wider font-bold transition-colors">Rent</a>
+            <a href="#" className="text-[#2D2D2D] hover:text-[#4A5D4E] text-xs lg:text-sm uppercase tracking-wider font-bold transition-colors">Projects</a>
+            <a href="#" className="text-[#2D2D2D] hover:text-[#4A5D4E] text-xs lg:text-sm uppercase tracking-wider font-bold transition-colors flex items-center gap-1">
+              Tools <ChevronDown size={14} />
             </a>
-            <a href="#" className="text-[#6B6B6B] hover:text-[#4A5D4E] text-sm uppercase tracking-wider font-semibold transition-colors">Agencies</a>
+            <a href="#" className="text-[#2D2D2D] hover:text-[#4A5D4E] text-xs lg:text-sm uppercase tracking-wider font-bold transition-colors">Agencies</a>
           </div>
 
           {/* User Actions */}
-          <div className="hidden md:flex items-center gap-4">
-            <button className="bg-[#4A5D4E] hover:bg-[#3D4D41] text-white px-6 py-2.5 rounded-full font-semibold text-sm transition-all shadow-sm">Log In</button>
-            <button className="bg-transparent border border-[#4A5D4E] hover:bg-[#4A5D4E] hover:text-white text-[#4A5D4E] px-6 py-2.5 rounded-full font-semibold text-sm transition-all transition-colors shadow-sm shadow-gray-200">
+          <div className="hidden md:flex items-center gap-4 lg:gap-5">
+            <button className="text-[#2D2D2D] font-bold hover:text-[#4A5D4E] transition-colors text-xs lg:text-sm uppercase tracking-wider">Log In</button>
+            <button className={`bg-[#4A5D4E] hover:bg-[#3D4D41] text-white font-bold uppercase tracking-wider text-[11px] lg:text-xs transition-all shadow-md shadow-[#4A5D4E]/20 hover:-translate-y-0.5 ${
+                isScrolled || isOpen ? 'px-6 py-3 rounded-xl' : 'px-6 lg:px-7 py-3 rounded-full'
+            }`}>
               Add Property
             </button>
           </div>
 
           {/* Mobile menu button */}
           <div className="md:hidden flex items-center">
-            <button onClick={() => setIsOpen(!isOpen)} className="text-[#6B6B6B] hover:text-[#4A5D4E]">
-              {isOpen ? <X size={28} /> : <Menu size={28} />}
+            <button onClick={() => setIsOpen(!isOpen)} className={`text-[#2D2D2D] p-2 transition-all duration-500 ${
+              isScrolled || isOpen ? 'bg-transparent' : 'bg-white/80 rounded-full backdrop-blur-sm border border-white'
+            }`}>
+              {isOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
         </div>
-      </div>
 
-      {/* Mobile Nav */}
-      {isOpen && (
-        <div className="md:hidden bg-white border-t border-[#E5E1D8] py-4 px-4 space-y-4">
-          <a href="#" className="block px-3 py-2 text-base font-medium text-[#2D2D2D] hover:bg-[#F9F7F2] rounded-md">Buy</a>
-          <a href="#" className="block px-3 py-2 text-base font-medium text-[#2D2D2D] hover:bg-[#F9F7F2] rounded-md">Rent</a>
-          <a href="#" className="block px-3 py-2 text-base font-medium text-[#2D2D2D] hover:bg-[#F9F7F2] rounded-md">Projects</a>
-          <a href="#" className="block px-3 py-2 text-base font-medium text-[#2D2D2D] hover:bg-[#F9F7F2] rounded-md">Tools</a>
-          <div className="pt-4 flex flex-col gap-3">
-            <button className="w-full bg-[#F0F2F0] text-[#2D2D2D] px-5 py-3 rounded-lg font-medium">Log In</button>
-            <button className="w-full bg-[#4A5D4E] text-white px-5 py-3 rounded-lg font-medium">Add Property</button>
+        {/* Mobile Nav */}
+        <motion.div 
+          initial={{ height: 0, opacity: 0 }}
+          animate={{ height: isOpen ? 'auto' : 0, opacity: isOpen ? 1 : 0 }}
+          className="md:hidden overflow-hidden"
+        >
+          <div className={`py-4 space-y-2 mt-4 border-t border-[#E5E1D8]`}>
+            <a href="#" className="block px-4 py-3 text-sm font-bold uppercase tracking-wider text-[#2D2D2D] hover:bg-[#F9F7F2] rounded-xl">Buy</a>
+            <a href="#" className="block px-4 py-3 text-sm font-bold uppercase tracking-wider text-[#2D2D2D] hover:bg-[#F9F7F2] rounded-xl">Rent</a>
+            <a href="#" className="block px-4 py-3 text-sm font-bold uppercase tracking-wider text-[#2D2D2D] hover:bg-[#F9F7F2] rounded-xl">Projects</a>
+            <a href="#" className="block px-4 py-3 text-sm font-bold uppercase tracking-wider text-[#2D2D2D] hover:bg-[#F9F7F2] rounded-xl">Tools</a>
+            <div className="pt-4 mt-2 flex flex-col gap-3 border-t border-[#E5E1D8]">
+              <button className="w-full bg-[#F0F2F0] text-[#2D2D2D] px-5 py-4 rounded-2xl font-bold uppercase tracking-wider text-xs">Log In</button>
+              <button className="w-full bg-[#4A5D4E] text-white px-5 py-4 rounded-2xl font-bold uppercase tracking-wider text-xs">Add Property</button>
+            </div>
           </div>
-        </div>
-      )}
-    </nav>
+        </motion.div>
+      </div>
+    </motion.nav>
   );
 }
 
@@ -92,8 +127,8 @@ function HeroSearch() {
   const [propertyType, setPropertyType] = useState<'homes' | 'plots' | 'commercial'>('homes');
 
   return (
-    <div className="relative pt-32 pb-40 flex items-center min-h-[600px] overflow-hidden">
-      {/* Background Image / Gradient */}
+    <div className="relative pt-32 pb-40 flex items-center min-h-[750px] overflow-hidden bg-[#E8E4D9]">
+      {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <Image
           src="https://picsum.photos/seed/estatevistahero/1920/1080"
@@ -103,19 +138,37 @@ function HeroSearch() {
           referrerPolicy="no-referrer"
           priority
         />
-        <div className="absolute inset-0 bg-[#E8E4D9]/90 backdrop-blur-sm"><div className="absolute inset-0 opacity-20 bg-[radial-gradient(#4A5D4E_1px,transparent_1px)] [background-size:24px_24px]"></div></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-[#F9F7F2]/60 via-[#E8E4D9]/40 to-[#E8E4D9]/90 backdrop-blur-[4px] shadow-[inset_0_0_80px_rgba(232,228,217,0.7)]">
+          <div className="absolute inset-0 opacity-[0.07] bg-[radial-gradient(#4A5D4E_1px,transparent_1px)] [background-size:24px_24px]"></div>
+        </div>
       </div>
 
       <div className="relative z-10 w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center">
-        <h1 className="text-5xl md:text-7xl font-serif font-light text-[#2D2D2D] text-center mb-6 leading-tight tracking-tight">
+        
+        <motion.h1 
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="text-5xl md:text-7xl font-serif font-light text-[#2D2D2D] text-center mb-6 leading-tight tracking-tight"
+        >
           Find your <span className="italic font-medium text-[#4A5D4E]">home</span><br className="hidden md:block"/> in Pakistan
-        </h1>
-        <p className="text-lg md:text-xl text-[#6B6B6B] mb-10 text-center max-w-2xl">
+        </motion.h1>
+        <motion.p 
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.1, ease: "easeOut" }}
+          className="text-lg md:text-xl text-[#6B6B6B] mb-10 text-center max-w-2xl"
+        >
           Search properties across Lahore, Karachi, and Islamabad. Your next dream home or investment is just a click away.
-        </p>
+        </motion.p>
 
         {/* Search Widget */}
-        <div className="w-full bg-white/95 rounded-3xl shadow-2xl shadow-[#4A5D4E]/10 border border-white backdrop-blur-2xl p-2 md:p-3 overflow-hidden">
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+          className="w-full bg-white/95 rounded-3xl shadow-2xl shadow-[#4A5D4E]/10 border border-white backdrop-blur-2xl p-2 md:p-3 overflow-hidden"
+        >
           {/* Main Tabs */}
           <div className="flex border-b border-[#E5E1D8]">
             {['buy', 'rent', 'projects'].map((tab) => (
@@ -133,8 +186,8 @@ function HeroSearch() {
             ))}
           </div>
 
-          <div className="p-4 sm:p-6 lg:p-8">
-            {/* Property Type Tabs (Sub-tabs) - only show for buy/rent */}
+          <div className="p-4 sm:p-5 lg:p-6">
+            {/* Property Type Tabs (Sub-tabs) */}
             {activeTab !== 'projects' && (
               <div className="flex gap-2 sm:gap-4 mb-6 overflow-x-auto pb-2 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
                 <button
@@ -155,7 +208,7 @@ function HeroSearch() {
                       : 'border-[#E5E1D8] text-[#6B6B6B] hover:border-[#DED9CC]'
                   }`}
                 >
-                  <Map size={16} /> Plots & Land
+                  <Map size={16} /> Plots
                 </button>
                 <button
                   onClick={() => setPropertyType('commercial')}
@@ -165,31 +218,29 @@ function HeroSearch() {
                       : 'border-[#E5E1D8] text-[#6B6B6B] hover:border-[#DED9CC]'
                   }`}
                 >
-                  <Building size={16} /> Commercial
+                  <Building size={16} /> Comm
                 </button>
               </div>
             )}
 
             {/* Form Fields */}
             <div className="flex flex-col md:flex-row gap-4">
-              {/* Location Input */}
               <div className="flex-1 relative">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                   <MapPin className="text-gray-400" size={20} />
                 </div>
                 <input
                   type="text"
-                  placeholder="City, area, or project (e.g. DHA Lahore)"
-                  className="w-full pl-11 pr-4 py-3.5 sm:py-4 bg-[#F9F7F2] border border-[#E5E1D8] rounded-2xl border-transparent focus:border-[#4A5D4E]/30 focus:bg-white focus:ring-4 focus:ring-[#4A5D4E]/10 outline-none transition-all text-[#2D2D2D] placeholder:text-gray-400"
+                  placeholder="City, area..."
+                  className="w-full pl-11 pr-4 py-3 sm:py-4 bg-[#F9F7F2] rounded-2xl border-transparent focus:border-[#4A5D4E]/30 focus:bg-white focus:ring-4 focus:ring-[#4A5D4E]/10 outline-none transition-all text-[#2D2D2D] placeholder:text-gray-400"
                 />
               </div>
 
-              {/* Price / Bed Filters (Simplified for design) */}
               <div className="hidden lg:flex w-48 relative">
                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                   <span className="text-gray-400 font-medium">Rs.</span>
                 </div>
-                <select className="w-full pl-11 pr-8 py-4 bg-[#F9F7F2] border border-[#E5E1D8] rounded-2xl border-transparent focus:border-[#4A5D4E]/30 focus:bg-white focus:ring-4 focus:ring-[#4A5D4E]/10 outline-none appearance-none text-[#2D2D2D] cursor-pointer">
+                <select className="w-full pl-11 pr-8 py-4 bg-[#F9F7F2] rounded-2xl border-transparent focus:border-[#4A5D4E]/30 focus:bg-white focus:ring-4 focus:ring-[#4A5D4E]/10 outline-none appearance-none text-[#2D2D2D] cursor-pointer">
                   <option value="">Price Range</option>
                   <option value="1">Under 1 Crore</option>
                   <option value="2">1 - 5 Crore</option>
@@ -200,14 +251,13 @@ function HeroSearch() {
                 </div>
               </div>
 
-              {/* Submit */}
-              <button className="bg-[#4A5D4E] hover:bg-[#3D4D41] text-white px-10 py-3.5 sm:py-4 rounded-2xl font-bold uppercase tracking-wide text-sm transition-all shadow-lg shadow-[#4A5D4E]/20 hover:-translate-y-0.5 flex items-center justify-center gap-2 md:w-auto w-full">
+              <button className="bg-[#4A5D4E] hover:bg-[#3D4D41] text-white px-8 py-3.5 sm:py-4 rounded-2xl font-bold uppercase tracking-wide text-sm transition-all shadow-lg shadow-[#4A5D4E]/20 hover:-translate-y-0.5 flex items-center justify-center gap-2 md:w-auto w-full">
                 <Search size={20} />
                 <span>Search</span>
               </button>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </div>
   );
@@ -222,9 +272,14 @@ function TopRegions() {
   ];
 
   return (
-    <section className="py-28 bg-white">
+    <section className="py-28 bg-white overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-10 gap-4">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6 }}
+          className="flex flex-col sm:flex-row sm:items-end justify-between mb-10 gap-4">
           <div>
             <h2 className="text-3xl md:text-4xl font-serif font-light tracking-tight text-[#2D2D2D] mb-2">Prime Destinations</h2>
             <p className="text-[#6B6B6B] text-lg">Explore the most sought-after real estate in Pakistan.</p>
@@ -232,11 +287,16 @@ function TopRegions() {
           <a href="#" className="hidden sm:flex items-center gap-1 text-[#4A5D4E] font-medium hover:text-[#3D4D41] transition-colors">
             View all cities <ArrowRight size={16} />
           </a>
-        </div>
+        </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
           {regions.map((region, idx) => (
-            <div key={idx} className="group relative rounded-[2rem] overflow-hidden aspect-[4/5] shadow-lg shadow-[#4A5D4E]/5 cursor-pointer shadow-sm hover:shadow-xl transition-all duration-300">
+            <motion.div 
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.6, delay: idx * 0.15 }}
+              key={idx} className="group relative rounded-[2rem] overflow-hidden aspect-[4/5] shadow-lg shadow-[#4A5D4E]/5 cursor-pointer shadow-sm hover:shadow-xl transition-all duration-300">
               <Image 
                 src={region.img} 
                 alt={region.title}
@@ -249,7 +309,7 @@ function TopRegions() {
                 <h3 className="text-3xl font-serif font-light text-white mb-2">{region.title}</h3>
                 <p className="text-slate-200 text-sm font-medium">{region.subtitle}</p>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>
@@ -293,14 +353,24 @@ function SpecializedTools() {
   return (
     <section className="py-32 bg-[#F9F7F2] border-y border-[#E5E1D8]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-2xl mx-auto mb-16">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6 }}
+          className="text-center max-w-2xl mx-auto mb-16">
           <h2 className="text-3xl md:text-4xl font-serif font-light tracking-tight text-[#2D2D2D] mb-4">Make Informed Decisions</h2>
           <p className="text-[#6B6B6B] text-lg">Powerful tools designed specifically for the Pakistani real estate market to help you invest with confidence.</p>
-        </div>
+        </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {tools.map((tool, idx) => (
-            <div key={idx} className={`p-8 rounded-2xl border ${tool.border} bg-white hover:shadow-lg transition-all duration-300 group cursor-pointer flex flex-col h-full`}>
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.5, delay: idx * 0.1 }}
+              key={idx} className={`p-8 rounded-2xl border ${tool.border} bg-white hover:shadow-lg transition-all duration-300 group cursor-pointer flex flex-col h-full`}>
               <div className={`w-16 h-16 rounded-2xl ${tool.bg} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
                 {tool.icon}
               </div>
@@ -309,7 +379,7 @@ function SpecializedTools() {
               <div className="mt-6 flex items-center gap-2 text-sm font-semibold text-[#2D2D2D] group-hover:text-[#4A5D4E] transition-colors">
                 Explore Tool <ArrowRight size={16} />
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>
@@ -327,9 +397,14 @@ function FeaturedProjects() {
   ];
 
   return (
-    <section className="py-28 bg-white">
+    <section className="py-28 bg-white overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-10 gap-4">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6 }}
+          className="flex flex-col sm:flex-row sm:items-end justify-between mb-10 gap-4">
           <div>
             <h2 className="text-3xl md:text-4xl font-serif font-light tracking-tight text-[#2D2D2D] mb-2">Exclusive New Projects</h2>
             <p className="text-[#6B6B6B] text-lg">Secure your future by investing in premium upcoming developments.</p>
@@ -337,11 +412,16 @@ function FeaturedProjects() {
           <button className="hidden sm:inline-flex px-5 py-2.5 border border-[#DED9CC] hover:border-slate-400 rounded-lg font-medium text-[#2D2D2D] transition-colors">
             View All Projects
           </button>
-        </div>
+        </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {projects.map((proj, idx) => (
-            <div key={idx} className="group border hover:border-transparent border-[#E5E1D8] rounded-[2rem] overflow-hidden hover:shadow-xl transition-shadow bg-white flex flex-col">
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              whileInView={{ opacity: 1, scale: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.5, delay: idx * 0.1 }}
+              key={idx} className="group border hover:border-transparent border-[#E5E1D8] rounded-[2rem] overflow-hidden hover:shadow-xl transition-shadow bg-white flex flex-col">
               <div className="relative aspect-[4/3] overflow-hidden">
                 <Image 
                   src={proj.img}
@@ -371,7 +451,7 @@ function FeaturedProjects() {
                   </button>
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>
@@ -384,7 +464,12 @@ function OverseasBanner() {
   return (
     <section className="py-16 bg-[#E8E4D9] text-[#2D2D2D]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-gradient-to-br from-[#E8E4D9] via-[#E8E4D9] to-[#DED9CC] rounded-[3rem] p-8 md:p-12 border border-[#DED9CC] flex flex-col lg:flex-row items-center justify-between gap-10">
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.95, y: 30 }}
+          whileInView={{ opacity: 1, scale: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8 }}
+          className="bg-gradient-to-br from-[#E8E4D9] via-[#E8E4D9] to-[#DED9CC] rounded-[3rem] p-8 md:p-12 border border-[#DED9CC] flex flex-col lg:flex-row items-center justify-between gap-10">
           <div className="lg:max-w-2xl">
             <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#F0F2F0]/20 text-[#8B735B] border border-[#8B735B]/30 rounded-full text-xs font-bold uppercase tracking-wider mb-6">
               <Star size={12} className="fill-[#8B735B]" /> Roshan Digital Account Support
@@ -402,7 +487,7 @@ function OverseasBanner() {
               Contact Support
             </button>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   )
