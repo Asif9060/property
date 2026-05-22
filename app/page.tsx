@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
+import Link from 'next/link';
 import {
   Search,
   MapPin,
@@ -22,7 +23,10 @@ import {
   Facebook,
   Twitter,
   Instagram,
-  Star
+  Star,
+  Quote,
+  ChevronLeft,
+  ChevronRight
 } from 'lucide-react';
 import Image from 'next/image';
 
@@ -131,7 +135,7 @@ function HeroSearch() {
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="https://picsum.photos/seed/estatevistahero/1920/1080"
+          src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1920&q=80"
           alt="Modern Architecture"
           fill
           className="object-cover object-center"
@@ -266,9 +270,9 @@ function HeroSearch() {
 // --- POPULAR REGIONS ---
 function TopRegions() {
   const regions = [
-    { title: 'Lahore', subtitle: 'DHA, Bahria Town, Raiwind Road', img: 'https://picsum.photos/seed/lahorepk/600/800' },
-    { title: 'Karachi', subtitle: 'Scheme 33, Clifton, DHA Defence', img: 'https://picsum.photos/seed/karachipk/600/800' },
-    { title: 'Islamabad', subtitle: 'Gulberg, B-17, DHA', img: 'https://picsum.photos/seed/islamabadpk/600/800' }
+    { title: 'Lahore', subtitle: 'DHA, Bahria Town, Raiwind Road', img: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=600&q=80' },
+    { title: 'Karachi', subtitle: 'Scheme 33, Clifton, DHA Defence', img: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=600&q=80' },
+    { title: 'Islamabad', subtitle: 'Gulberg, B-17, DHA', img: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=600&q=80' }
   ];
 
   return (
@@ -390,10 +394,10 @@ function SpecializedTools() {
 // --- FEATURED PROJECTS ---
 function FeaturedProjects() {
   const projects = [
-    { title: 'Arx Residences', developer: 'Vista Developers', location: 'DHA Phase 8, Lahore', price: 'From Rs. 2.4 Crore', img: 'https://picsum.photos/seed/project1/800/600', tag: 'Selling Fast' },
-    { title: 'Jade Towers', developer: 'Peak Construction Group', location: 'Bahria Town, Rawalpindi', price: 'From Rs. 1.8 Crore', img: 'https://picsum.photos/seed/project2/800/600', tag: 'New Launch' },
-    { title: 'Akbar Heights', developer: 'Akbar Associates', location: 'Gulberg Greens, Islamabad', price: 'From Rs. 3.5 Crore', img: 'https://picsum.photos/seed/project3/800/600', tag: 'Premium' },
-    { title: 'Clifton Bay Marina', developer: 'Oceanic Builders', location: 'Clifton, Karachi', price: 'From Rs. 5.1 Crore', img: 'https://picsum.photos/seed/project4/800/600', tag: 'Under Construction' },
+    { title: 'Arx Residences', developer: 'Vista Developers', location: 'DHA Phase 8, Lahore', price: 'From Rs. 2.4 Crore', img: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80', tag: 'Selling Fast' },
+    { title: 'Jade Towers', developer: 'Peak Construction Group', location: 'Bahria Town, Rawalpindi', price: 'From Rs. 1.8 Crore', img: 'https://images.unsplash.com/photo-1574362848149-11496d93a7c7?auto=format&fit=crop&w=800&q=80', tag: 'New Launch' },
+    { title: 'Akbar Heights', developer: 'Akbar Associates', location: 'Gulberg Greens, Islamabad', price: 'From Rs. 3.5 Crore', img: 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=800&q=80', tag: 'Premium' },
+    { title: 'Clifton Bay Marina', developer: 'Oceanic Builders', location: 'Clifton, Karachi', price: 'From Rs. 5.1 Crore', img: 'https://images.unsplash.com/photo-1549439602-43ebca2327af?auto=format&fit=crop&w=800&q=80', tag: 'Under Construction' },
   ];
 
   return (
@@ -422,37 +426,191 @@ function FeaturedProjects() {
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.5, delay: idx * 0.1 }}
               key={idx} className="group border hover:border-transparent border-[#E5E1D8] rounded-[2rem] overflow-hidden hover:shadow-xl transition-shadow bg-white flex flex-col">
-              <div className="relative aspect-[4/3] overflow-hidden">
-                <Image 
-                  src={proj.img}
-                  alt={proj.title}
-                  fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-500"
-                  referrerPolicy="no-referrer"
-                />
-                <div className="absolute top-4 left-4">
-                  <span className="bg-white/90 backdrop-blur-sm text-[#2D2D2D] text-xs font-bold px-3 py-1.5 rounded-md shadow-sm uppercase tracking-wide">
-                    {proj.tag}
-                  </span>
-                </div>
-              </div>
-              <div className="p-5 flex-grow flex flex-col justify-between">
-                <div>
-                  <h3 className="text-xl font-serif font-medium tracking-tight text-[#2D2D2D] mb-1 leading-tight">{proj.title}</h3>
-                  <p className="text-[#6B6B6B] text-sm mb-3">by {proj.developer}</p>
-                  <div className="flex items-center gap-1.5 text-[#6B6B6B] text-sm mb-4">
-                    <MapPin size={14} className="text-gray-400" /> {proj.location}
+              <Link href={`/property/1`} className="flex flex-col h-full">
+                <div className="relative aspect-[4/3] overflow-hidden">
+                  <Image 
+                    src={proj.img}
+                    alt={proj.title}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    referrerPolicy="no-referrer"
+                  />
+                  <div className="absolute top-4 left-4">
+                    <span className="bg-white/90 backdrop-blur-sm text-[#2D2D2D] text-xs font-bold px-3 py-1.5 rounded-md shadow-sm uppercase tracking-wide">
+                      {proj.tag}
+                    </span>
                   </div>
                 </div>
-                <div className="pt-4 border-t border-[#E5E1D8] flex items-center justify-between">
-                  <span className="text-[#4A5D4E] font-bold">{proj.price}</span>
-                  <button className="w-8 h-8 flex items-center justify-center rounded-full bg-[#F9F7F2] text-[#6B6B6B] hover:bg-[#F0F2F0] hover:text-[#4A5D4E] transition-colors">
-                    <ArrowRight size={16} />
-                  </button>
+                <div className="p-5 flex-grow flex flex-col justify-between">
+                  <div>
+                    <h3 className="text-xl font-serif font-medium tracking-tight text-[#2D2D2D] mb-1 leading-tight">{proj.title}</h3>
+                    <p className="text-[#6B6B6B] text-sm mb-3">by {proj.developer}</p>
+                    <div className="flex items-center gap-1.5 text-[#6B6B6B] text-sm mb-4">
+                      <MapPin size={14} className="text-gray-400" /> {proj.location}
+                    </div>
+                  </div>
+                  <div className="pt-4 border-t border-[#E5E1D8] flex items-center justify-between">
+                    <span className="text-[#4A5D4E] font-bold">{proj.price}</span>
+                    <button className="w-8 h-8 flex items-center justify-center rounded-full bg-[#F9F7F2] text-[#6B6B6B] hover:bg-[#F0F2F0] hover:text-[#4A5D4E] transition-colors">
+                      <ArrowRight size={16} />
+                    </button>
+                  </div>
                 </div>
-              </div>
+              </Link>
             </motion.div>
           ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// --- TESTIMONIALS ---
+function Testimonials() {
+  const testimonials = [
+    {
+      id: 1,
+      name: "Ahmed Ali",
+      location: "Lahore",
+      text: "Finding a property through EstateVista was a breeze. Their specific filters and clear pricing helped me zero in on my dream home in DHA within weeks.",
+      rating: 5,
+      role: "Homeowner",
+      img: "https://images.unsplash.com/photo-1599566150163-29194dcaad36?auto=format&fit=crop&w=150&q=80"
+    },
+    {
+      id: 2,
+      name: "Sara Khan",
+      location: "Islamabad",
+      text: "As an overseas Pakistani, I was worried about investing, but the platform's trusted projects section gave me the confidence to buy a plot in Gulberg Greens.",
+      rating: 5,
+      role: "Investor",
+      img: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&q=80"
+    },
+    {
+      id: 3,
+      name: "Usman Tariq",
+      location: "Karachi",
+      text: "EstateVista's rent calculators and verified listings saved me from dealing with endless unreliable brokers. Highly recommend it to anyone in Karachi.",
+      rating: 4,
+      role: "Tenant",
+      img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80"
+    },
+    {
+      id: 4,
+      name: "Aisha Rehman",
+      location: "Rawalpindi",
+      text: "The sheer volume of listings was amazing. I found exactly what I was looking for, well within my budget and close to my workplace.",
+      rating: 5,
+      role: "Homeowner",
+      img: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=150&q=80"
+    }
+  ];
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const nextSlide = () => {
+    setCurrentIndex((prev) => (prev + 1) % testimonials.length);
+  };
+
+  const prevSlide = () => {
+    setCurrentIndex((prev) => (prev === 0 ? testimonials.length - 1 : prev - 1));
+  };
+
+  return (
+    <section className="py-28 bg-[#F9F7F2] overflow-hidden relative">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-16"
+        >
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#E8E4D9] text-[#4A5D4E] text-sm font-bold uppercase tracking-wider mb-6">
+            <Star size={16} className="fill-[#4A5D4E]" />
+            Client Stories
+          </div>
+          <h2 className="text-4xl md:text-5xl font-serif font-light text-[#2D2D2D] text-center mb-6">
+            What our <span className="italic text-[#4A5D4E]">clients</span> say
+          </h2>
+        </motion.div>
+
+        <div className="relative max-w-4xl mx-auto">
+          {/* Controls */}
+          <div className="hidden sm:block absolute top-1/2 -translate-y-1/2 -left-4 md:-left-12 lg:-left-20 z-20">
+            <button 
+              onClick={prevSlide}
+              className="w-12 h-12 bg-white rounded-full shadow-lg border border-[#E5E1D8] flex items-center justify-center text-[#2D2D2D] hover:bg-[#4A5D4E] hover:text-white transition-all focus:outline-none focus:ring-2 focus:ring-[#4A5D4E]"
+            >
+              <ChevronLeft size={24} />
+            </button>
+          </div>
+          
+          <div className="hidden sm:block absolute top-1/2 -translate-y-1/2 -right-4 md:-right-12 lg:-right-20 z-20">
+            <button 
+              onClick={nextSlide}
+              className="w-12 h-12 bg-white rounded-full shadow-lg border border-[#E5E1D8] flex items-center justify-center text-[#2D2D2D] hover:bg-[#4A5D4E] hover:text-white transition-all focus:outline-none focus:ring-2 focus:ring-[#4A5D4E]"
+            >
+              <ChevronRight size={24} />
+            </button>
+          </div>
+
+          <div className="overflow-hidden px-2 sm:px-4 py-8">
+            <motion.div 
+              className="flex items-stretch"
+              animate={{ x: `-${currentIndex * 100}%` }}
+              transition={{ type: "tween", ease: "easeInOut", duration: 0.5 }}
+            >
+              {testimonials.map((testimonial) => (
+                <div key={testimonial.id} className="w-full flex-shrink-0 px-2 sm:px-4">
+                  <div className="bg-white p-8 md:p-12 rounded-[2rem] shadow-xl shadow-[#4A5D4E]/5 border border-[#E5E1D8] relative h-full flex flex-col">
+                    <Quote size={48} className="absolute top-8 right-8 text-[#E8E4D9] opacity-50" />
+                    
+                    <div className="flex gap-1 mb-6 text-[#D4AF37]">
+                      {[...Array(testimonial.rating)].map((_, i) => (
+                        <Star key={i} size={20} className="fill-current" />
+                      ))}
+                    </div>
+
+                    <p className="text-xl md:text-2xl text-[#2D2D2D] mb-8 font-serif leading-relaxed flex-grow">
+                      &quot;{testimonial.text}&quot;
+                    </p>
+
+                    <div className="flex items-center gap-4 mt-auto">
+                      <div className="w-14 h-14 rounded-full overflow-hidden relative border border-[#E5E1D8]">
+                        <Image
+                          src={testimonial.img}
+                          alt={testimonial.name}
+                          fill
+                          className="object-cover"
+                          referrerPolicy="no-referrer"
+                        />
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-[#2D2D2D] uppercase tracking-wider text-sm">{testimonial.name}</h4>
+                        <p className="text-xs font-semibold uppercase tracking-wider text-[#6B6B6B] mt-0.5">{testimonial.role}, {testimonial.location}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </motion.div>
+          </div>
+
+          {/* Dots Indicator */}
+          <div className="flex justify-center gap-2 mt-4 sm:mt-8">
+            {testimonials.map((_, idx) => (
+              <button
+                key={idx}
+                onClick={() => setCurrentIndex(idx)}
+                className={`w-3 h-3 rounded-full transition-all focus:outline-none focus:ring-2 focus:ring-[#4A5D4E]/30 ${
+                  currentIndex === idx ? "bg-[#4A5D4E] w-8" : "bg-[#DED9CC] hover:bg-[#C4BFB3]"
+                }`}
+                aria-label={`Go to slide ${idx + 1}`}
+              />
+            ))}
+          </div>
+
         </div>
       </div>
     </section>
@@ -576,6 +734,7 @@ export default function Page() {
         <TopRegions />
         <SpecializedTools />
         <FeaturedProjects />
+        <Testimonials />
         <OverseasBanner />
       </main>
       
